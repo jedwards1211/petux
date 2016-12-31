@@ -1,0 +1,24 @@
+{
+  "name": "petux",
+  "version": "1.0.0-alpha.stub",
+  "description": "Emit descriptions of side-effects from your reducers; perform them with a strategy of your choice.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tempname11/petux.git"
+  },
+  "keywords": [
+    "redux",
+    "effects",
+    "2017"
+  ],
+  "author": "Vladimir Semyonov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tempname11/petux/issues"
+  },
+  "homepage": "https://github.com/tempname11/petux#readme"
+}
