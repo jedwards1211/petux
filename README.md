@@ -4,6 +4,8 @@ Perform side effects with [Redux](https://github.com/reactjs/redux).
 
 Etymology: derived from **Rus.** [*петух*](https://en.wiktionary.org/wiki/%D0%BF%D0%B5%D1%82%D1%83%D1%85) [pʲɪˈtux] — a rooster.
 
+[![build status](https://img.shields.io/travis/tempname11/petux/master.svg?style=flat-square)](https://travis-ci.org/tempname11/petux)
+
 ### In a nutshell
 
 ```javascript
