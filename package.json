@@ -1,6 +1,6 @@
 {
   "name": "petux",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.5",
   "description": "Emit descriptions of side-effects from your reducers; perform them with a strategy of your choice.",
   "main": "lib/index.js",
   "files": [
@@ -8,7 +8,7 @@
     "src"
   ],
   "scripts": {
-    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
