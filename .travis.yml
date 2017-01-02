@@ -2,7 +2,8 @@ language: node_js
 node_js:
   - "6"
 script:
-  - npm run build
+  - yarn run build
+  - cd examples/async && yarn && yarn run build
 cache:
   yarn: true
   directories:
