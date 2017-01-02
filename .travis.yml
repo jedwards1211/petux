@@ -9,8 +9,9 @@ cache:
   directories:
   - examples/async/node_modules
 deploy:
-  provider: npm
   on:
     tags: true
+  provider: npm
+  email: "tempname011@gmail.com"
   api_key:
     secure: B/iK8cRg4jpX/GIxIfP4bC3m0zbiV7dz6TdXgS3gWOUrQZkTlExVwKbWxWbvUekF7M4U9izrwz7WLRuAk3ceGNF5EccYf7e2XVzinqv+Nqdoce0BG/Mb9jnAfYbGPwSNzeNEvVX8RON/lVs2JnIRNTAx9bxAO7+5Hsd+/Iw9i0DU81EYAS7JpX0i/8bSDxlqNonNy/GFslyR/Y9rj6h94LyGjof3xZ2ITjdWflmdzYT47XhJyz/vnAq6SbbKcKRI8vYAnuC+jVW/dEw85GcqWuFYwlUr1EoVhNDsgR4b+CF4+L5Z8K+Bt5hwmuY2ImdMq2d71HrsXm9cIS1MP/XAdFYsIShC/dMMUZ4ji04nZFQccE2BOJCZyMZ1tUFLku7BKC8zcxVq35v8hEhYRahu+Uf0RSFt3F7tI6MNgnQfXFDGLSQjupjtsX4qOX8dYk79OxmVcmxfQPb3bZA4HqNG+EWhankCqC0axpTDJ/9DpocvXOOOSv+GOJuWYZJCwVLVHkNt6WY9+6Q3viKcDrCQ5bKOg2C2ps+AkjY5TocBeOWH2TzlLt+n6DUKAqEIfRg0bJ49Yr6WRAE69Pf5hETatWqkmKtyXf/MK6GBWzbuknbuKiF8jHjkrePN4yKc0UQ/Q6W3zsbkkFSnHQqLxx687OpPcratDA58vMqLg1pbKEU=
