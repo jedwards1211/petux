@@ -9,9 +9,10 @@ cache:
   directories:
   - examples/async/node_modules
 deploy:
+  provider: npm
+  email: tempname011@gmail.com
+  api_key:
+    secure: kdn6ci1obClGjiAavuktoY+LOpjCxpYeYQn9yVMyti74baVdMLpvKlBEdQC7MODnfu741+RQGETRqBS1EqjL1e/n1wK4PLVK+GpS52qKkOigEoE3LYgBNKeaiFMSAlBkAnHCZQ6zt0sen9rTmZmZPIWckBYSRdPvnfKDD2ids3Sml77/+LK8oe/lmP7ZXZiWsvnYJ/UIGWsYXvJA3p84Cwl3FlpU2cLkWym7VG2e/0wcg8YtCfBqaGMsf55vL76zCeS7/Uf5Ks5TiSWbj3UdPKpyI7rjgdmfbecmQHQjlaChEvwNrmyUnj5T3pNdUDbTdtj138cqP4/aJ4T8EXFYAt6RdQEHCoOt6HPCFctjVVs0BuHo9tObjNYX6F58klsu+upwGdPULWr7S54vIZ3mrCDPwMcrhBC3VrLTno45vPwMHbHLvpPvc+s4cXciqZ/PydCBSt2AeFjsspvDIX73mr+5wGBPgrxp0ZrG7GC+v+nDcn1Zetx27PWg9K7P4+9QnLjVzSgqcxM8Q/fZffxkfMt+Pam3JfzxYFQOY+lB0j4l4/IkZNxEvDC8g5TjCje2/NGsgd3G5V8VeUYE6RnyeYqR/DcIm5zDoHK/CAtp5N+UKNbUhk91zvYbj8+ol08Qbh+5EIyek9DWj9YLAslhMcEMCJ4l61N4JMObr1Qzwec=
   on:
     tags: true
-  provider: npm
-  email: "tempname011@gmail.com"
-  api_key:
-    secure: B/iK8cRg4jpX/GIxIfP4bC3m0zbiV7dz6TdXgS3gWOUrQZkTlExVwKbWxWbvUekF7M4U9izrwz7WLRuAk3ceGNF5EccYf7e2XVzinqv+Nqdoce0BG/Mb9jnAfYbGPwSNzeNEvVX8RON/lVs2JnIRNTAx9bxAO7+5Hsd+/Iw9i0DU81EYAS7JpX0i/8bSDxlqNonNy/GFslyR/Y9rj6h94LyGjof3xZ2ITjdWflmdzYT47XhJyz/vnAq6SbbKcKRI8vYAnuC+jVW/dEw85GcqWuFYwlUr1EoVhNDsgR4b+CF4+L5Z8K+Bt5hwmuY2ImdMq2d71HrsXm9cIS1MP/XAdFYsIShC/dMMUZ4ji04nZFQccE2BOJCZyMZ1tUFLku7BKC8zcxVq35v8hEhYRahu+Uf0RSFt3F7tI6MNgnQfXFDGLSQjupjtsX4qOX8dYk79OxmVcmxfQPb3bZA4HqNG+EWhankCqC0axpTDJ/9DpocvXOOOSv+GOJuWYZJCwVLVHkNt6WY9+6Q3viKcDrCQ5bKOg2C2ps+AkjY5TocBeOWH2TzlLt+n6DUKAqEIfRg0bJ49Yr6WRAE69Pf5hETatWqkmKtyXf/MK6GBWzbuknbuKiF8jHjkrePN4yKc0UQ/Q6W3zsbkkFSnHQqLxx687OpPcratDA58vMqLg1pbKEU=
+    repo: tempname11/petux
