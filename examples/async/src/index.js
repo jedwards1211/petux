@@ -1,20 +1,24 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore } from 'petux'
+import { applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import reducer from './reducers'
 import App from './containers/App'
 
-const middleware = [ thunk ]
+const middleware = []
 if (process.env.NODE_ENV !== 'production') {
   middleware.push(createLogger())
 }
 
+const performWith = dispatch => ({ fn, args }) => fn(dispatch)(...args);
+
 const store = createStore(
   reducer,
-  applyMiddleware(...middleware)
+  undefined,
+  applyMiddleware(...middleware),
+  performWith
 )
 
 render(

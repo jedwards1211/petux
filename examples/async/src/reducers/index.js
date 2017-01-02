@@ -1,8 +1,6 @@
-import { combineReducers } from 'redux'
-import {
-  SELECT_REDDIT, INVALIDATE_REDDIT,
-  REQUEST_POSTS, RECEIVE_POSTS
-} from '../actions'
+import { combineReducers } from 'petux'
+import { fetchPosts } from '../effects'
+import { SELECT_REDDIT, REQUEST_POSTS, RECEIVE_POSTS } from '../actions'
 
 const selectedReddit = (state = 'reactjs', action) => {
   switch (action.type) {
@@ -15,26 +13,25 @@ const selectedReddit = (state = 'reactjs', action) => {
 
 const posts = (state = {
   isFetching: false,
-  didInvalidate: false,
+  valid: false,
   items: []
-}, action) => {
+}, action, emit) => {
   switch (action.type) {
-    case INVALIDATE_REDDIT:
-      return {
-        ...state,
-        didInvalidate: true
-      }
     case REQUEST_POSTS:
+      const isFetching = action.forceFetch || (!state.valid && !state.isFetching);
+      if (isFetching) {
+        emit({ fn: fetchPosts, args: [action.reddit] })
+      }
       return {
         ...state,
-        isFetching: true,
-        didInvalidate: false
+        isFetching,
+        valid: true
       }
     case RECEIVE_POSTS:
       return {
         ...state,
         isFetching: false,
-        didInvalidate: false,
+        valid: true,
         items: action.posts,
         lastUpdated: action.receivedAt
       }
@@ -43,14 +40,13 @@ const posts = (state = {
   }
 }
 
-const postsByReddit = (state = { }, action) => {
+const postsByReddit = (state = { }, action, emit) => {
   switch (action.type) {
-    case INVALIDATE_REDDIT:
     case RECEIVE_POSTS:
     case REQUEST_POSTS:
       return {
         ...state,
-        [action.reddit]: posts(state[action.reddit], action)
+        [action.reddit]: posts(state[action.reddit], action, emit)
       }
     default:
       return state
