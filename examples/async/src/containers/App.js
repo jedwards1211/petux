@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { selectReddit, fetchPostsIfNeeded, invalidateReddit } from '../actions'
+import { selectReddit, requestPosts } from '../actions'
 import Picker from '../components/Picker'
 import Posts from '../components/Posts'
 
@@ -15,13 +15,13 @@ class App extends Component {
 
   componentDidMount() {
     const { dispatch, selectedReddit } = this.props
-    dispatch(fetchPostsIfNeeded(selectedReddit))
+    dispatch(requestPosts(selectedReddit))
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedReddit !== this.props.selectedReddit) {
       const { dispatch, selectedReddit } = nextProps
-      dispatch(fetchPostsIfNeeded(selectedReddit))
+      dispatch(requestPosts(selectedReddit))
     }
   }
 
@@ -33,8 +33,7 @@ class App extends Component {
     e.preventDefault()
 
     const { dispatch, selectedReddit } = this.props
-    dispatch(invalidateReddit(selectedReddit))
-    dispatch(fetchPostsIfNeeded(selectedReddit))
+    dispatch(requestPosts(selectedReddit, true))
   }
 
   render() {
