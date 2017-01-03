@@ -2,30 +2,49 @@ import union from 'lodash/union'
 
 // Creates a reducer managing pagination, given the action types to handle,
 // and a function telling how to extract the key from an action.
-const paginate = ({ types, mapActionToKey }) => {
-  if (!Array.isArray(types) || types.length !== 3) {
-    throw new Error('Expected types to be an array of three elements.')
+const paginate = ({ loadType, schema, successType, failureType, mapActionToKey, mapActionToDefaultUrl }) => {
+  if (typeof loadType !== 'string') {
+    throw new Error('Expected `loadType` to be a string.')
   }
-  if (!types.every(t => typeof t === 'string')) {
-    throw new Error('Expected types to be strings.')
+  if (!schema) {
+    throw new Error('Specify one of the exported Schemas.')
+  }
+  if (typeof successType !== 'string') {
+    throw new Error('Expected `successType` to be a string.')
+  }
+  if (typeof failureType !== 'string') {
+    throw new Error('Expected `failureType` to be a string.')
   }
   if (typeof mapActionToKey !== 'function') {
     throw new Error('Expected mapActionToKey to be a function.')
   }
-
-  const [ requestType, successType, failureType ] = types
+  if (typeof mapActionToDefaultUrl !== 'function') {
+    throw new Error('Expected mapActionToDefaultUrl to be a function.')
+  }
 
   const updatePagination = (state = {
     isFetching: false,
     nextPageUrl: undefined,
     pageCount: 0,
     ids: []
-  }, action) => {
+  }, action, emit) => {
     switch (action.type) {
-      case requestType:
-        return {
-          ...state,
-          isFetching: true
+      case loadType:
+        if (state.pageCount > 0 && !action.nextPage) {
+          return state
+        } else {
+          emit({
+            kind: 'API',
+            successType,
+            failureType,
+            schema,
+            endpoint: state.nextPageUrl || mapActionToDefaultUrl(action),
+            payload: action
+          })
+          return {
+            ...state,
+            isFetching: true
+          }
         }
       case successType:
         return {
@@ -45,10 +64,10 @@ const paginate = ({ types, mapActionToKey }) => {
     }
   }
 
-  return (state = {}, action) => {
+  return (state = {}, action, emit) => {
     // Update pagination by key
     switch (action.type) {
-      case requestType:
+      case loadType:
       case successType:
       case failureType:
         const key = mapActionToKey(action)
@@ -56,7 +75,7 @@ const paginate = ({ types, mapActionToKey }) => {
           throw new Error('Expected key to be a string.')
         }
         return { ...state,
-          [key]: updatePagination(state[key], action)
+          [key]: updatePagination(state[key], action, emit)
         }
       default:
         return state

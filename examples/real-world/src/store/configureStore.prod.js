@@ -1,12 +1,12 @@
-import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
-import api from '../middleware/api'
+import { createStore, } from 'redux'
+import { effectEnhancer } from 'petux'
+import { handler } from '../effects'
 import rootReducer from '../reducers'
 
 const configureStore = preloadedState => createStore(
   rootReducer,
   preloadedState,
-  applyMiddleware(thunk, api)
+  effectEnhancer(handler)
 )
 
 export default configureStore

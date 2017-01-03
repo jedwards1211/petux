@@ -1,17 +1,9 @@
 import * as ActionTypes from '../actions'
-import merge from 'lodash/merge'
 import paginate from './paginate'
+import entities from './entities'
 import { routerReducer as routing } from 'react-router-redux'
-import { combineReducers } from 'redux'
-
-// Updates an entity cache in response to any action with response.entities.
-const entities = (state = { users: {}, repos: {} }, action) => {
-  if (action.response && action.response.entities) {
-    return merge({}, state, action.response.entities)
-  }
-
-  return state
-}
+import { combineReducers } from 'petux'
+import { Schemas } from '../api';
 
 // Updates error message to notify about the failed fetches.
 const errorMessage = (state = null, action) => {
@@ -30,19 +22,19 @@ const errorMessage = (state = null, action) => {
 const pagination = combineReducers({
   starredByUser: paginate({
     mapActionToKey: action => action.login,
-    types: [
-      ActionTypes.STARRED_REQUEST,
-      ActionTypes.STARRED_SUCCESS,
-      ActionTypes.STARRED_FAILURE
-    ]
+    mapActionToDefaultUrl: action => `users/${action.login}/starred`,
+    schema: Schemas.REPO_ARRAY,
+    loadType: ActionTypes.LOAD_STARRED,
+    successType: ActionTypes.STARRED_SUCCESS,
+    failureType: ActionTypes.STARRED_FAILURE
   }),
   stargazersByRepo: paginate({
     mapActionToKey: action => action.fullName,
-    types: [
-      ActionTypes.STARGAZERS_REQUEST,
-      ActionTypes.STARGAZERS_SUCCESS,
-      ActionTypes.STARGAZERS_FAILURE
-    ]
+    mapActionToDefaultUrl: action => `repos/${action.fullName}/stargazers`,
+    schema: Schemas.USER_ARRAY,
+    loadType: ActionTypes.LOAD_STARGAZERS,
+    successType: ActionTypes.STARGAZERS_SUCCESS,
+    failureType: ActionTypes.STARGAZERS_FAILURE
   })
 })
 
