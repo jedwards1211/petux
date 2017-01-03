@@ -3,8 +3,6 @@ node_js:
 - '6'
 script:
 - yarn run build
-- cd examples/async && yarn && yarn run build && cd ../..
-- cd examples/real-world && yarn && yarn run build && cd ../..
 cache:
   yarn: true
   directories:
