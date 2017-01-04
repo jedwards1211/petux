@@ -1,29 +1,22 @@
-import {
-  createStore as reduxCreateStore,
-  combineReducers as reduxCombineReducers,
-  compose
-} from 'redux';
+/* @flow */
 
-export function effectEnhancer(handler) {
-  return (createStore) => (reducer, preloadedState, enhancer) => {
-    let emittedEffects = [];
+type Dispatch<A> = (A) => void;
+type Handler<A, E> = Dispatch<A> => E => void;
 
-    const lift = r => (state, action) => r(state, action, emit);
-    const replaceReducer = r => store.replaceReducer(lift(r));
-    const store = createStore(lift(reducer), preloadedState, enhancer);
-    const perform = handler(dispatch);
+const blackhole = { push() {} };
 
-    function emit(effect) {
-      emittedEffects.push(effect);
-    }
+export function initEffects<A, E>(handler: Handler<A, E>) {
+  let newEffects = blackhole;
 
-    function dispatch(action) {
-      emittedEffects = [];
-      store.dispatch(action);
-      setTimeout(() => performAll(emittedEffects), 0);
-    }
+  function emit(effect: E) {
+    newEffects.push(effect);
+  }
 
-    function performAll(effects) {
+  const enhancer = (createStore: *) => (...args: *[]) => {
+    const store = createStore(...args);
+    const perform = handler(store.dispatch);
+
+    function performAll(effects: E[]) {
       for (let i = 0; i < effects.length; i++) {
         try {
           perform(effects[i]);
@@ -33,41 +26,19 @@ export function effectEnhancer(handler) {
       }
     }
 
+    function dispatch(action: A) {
+      newEffects = [];
+      store.dispatch(action);
+      const queuedEffects = newEffects;
+      setTimeout(() => performAll(queuedEffects), 0);
+      newEffects = blackhole;
+    }
+
     return {
       ...store,
       dispatch,
-      replaceReducer,
     };
   }
-}
 
-export function createStore(reducer, preloadedState, enhancer, handler) {
-  enhancer = handler ? compose(effectEnhancer(handler), enhancer) : enhancer;
-  return (reduxCreateStore)(reducer, preloadedState, enhancer);
-}
-
-export function combineReducers(reducers) {
-  let emit_;
-
-  const lift = r => (state, action) => r(state, action, emit_);
-  const liftedReducers = {};
-  const keys = Object.keys(reducers);
-
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    const value = reducers[key];
-
-    if (typeof value === 'function') {
-      liftedReducers[key] = lift(value);
-    } else {
-      liftedReducers[key] = value;
-    }
-  }
-
-  const combination = reduxCombineReducers(liftedReducers);
-
-  return function(state, action, emit) {
-    emit_ = emit;
-    return combination(state, action);
-  }
+  return { enhancer, emit };
 }
