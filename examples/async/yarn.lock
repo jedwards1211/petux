@@ -3821,11 +3821,8 @@ pbkdf2-compat@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/pbkdf2-compat/-/pbkdf2-compat-2.0.1.tgz#b6e0c8fa99494d94e0511575802a59a5c142f288"
 
-petux@1.0.0-alpha.1:
-  version "1.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/petux/-/petux-1.0.0-alpha.1.tgz#e72455a53ec4ed2b23dce1610cc6403524b7f507"
-  dependencies:
-    redux "^3.6.0"
+petux@>=1.0.0-alpha.8:
+  version "1.0.0-alpha.8"
 
 pify@^2.0.0:
   version "2.3.0"
@@ -4404,7 +4401,7 @@ redux-logger@^2.6.1:
   dependencies:
     deep-diff "0.3.4"
 
-redux@^3.5.2, redux@^3.6.0:
+redux@^3.5.2:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.6.0.tgz#887c2b3d0b9bd86eca2be70571c27654c19e188d"
   dependencies:

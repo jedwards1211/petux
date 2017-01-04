@@ -1,8 +1,8 @@
 import * as ActionTypes from '../actions'
-import paginate from './paginate'
-import entities from './entities'
+import paginateWith from './paginate'
+import entitiesWith from './entities'
 import { routerReducer as routing } from 'react-router-redux'
-import { combineReducers } from 'petux'
+import { combineReducers } from 'redux'
 import { Schemas } from '../api';
 
 // Updates error message to notify about the failed fetches.
@@ -19,8 +19,8 @@ const errorMessage = (state = null, action) => {
 }
 
 // Updates the pagination data for different actions.
-const pagination = combineReducers({
-  starredByUser: paginate({
+const paginationWith = emit => combineReducers({
+  starredByUser: paginateWith(emit)({
     mapActionToKey: action => action.login,
     mapActionToDefaultUrl: action => `users/${action.login}/starred`,
     schema: Schemas.REPO_ARRAY,
@@ -28,7 +28,7 @@ const pagination = combineReducers({
     successType: ActionTypes.STARRED_SUCCESS,
     failureType: ActionTypes.STARRED_FAILURE
   }),
-  stargazersByRepo: paginate({
+  stargazersByRepo: paginateWith(emit)({
     mapActionToKey: action => action.fullName,
     mapActionToDefaultUrl: action => `repos/${action.fullName}/stargazers`,
     schema: Schemas.USER_ARRAY,
@@ -38,11 +38,11 @@ const pagination = combineReducers({
   })
 })
 
-const rootReducer = combineReducers({
-  entities,
-  pagination,
+const rootReducerWith = emit => combineReducers({
+  entities: entitiesWith(emit),
+  pagination: paginationWith(emit),
   errorMessage,
   routing
 })
 
-export default rootReducer
+export default rootReducerWith

@@ -1,4 +1,4 @@
-import { combineReducers } from 'petux'
+import { combineReducers } from 'redux'
 import { fetchPosts } from '../effects'
 import { SELECT_REDDIT, REQUEST_POSTS, RECEIVE_POSTS } from '../actions'
 
@@ -11,11 +11,11 @@ const selectedReddit = (state = 'reactjs', action) => {
   }
 }
 
-const posts = (state = {
+const postsWith = emit => (state = {
   isFetching: false,
   valid: false,
   items: []
-}, action, emit) => {
+}, action) => {
   switch (action.type) {
     case REQUEST_POSTS:
       const isFetching = action.forceFetch || (!state.valid && !state.isFetching);
@@ -40,22 +40,22 @@ const posts = (state = {
   }
 }
 
-const postsByReddit = (state = { }, action, emit) => {
+const postsByRedditWith = emit => (state = { }, action) => {
   switch (action.type) {
     case RECEIVE_POSTS:
     case REQUEST_POSTS:
       return {
         ...state,
-        [action.reddit]: posts(state[action.reddit], action, emit)
+        [action.reddit]: postsWith(emit)(state[action.reddit], action)
       }
     default:
       return state
   }
 }
 
-const rootReducer = combineReducers({
-  postsByReddit,
+const rootReducerWith = emit => combineReducers({
+  postsByReddit: postsByRedditWith(emit),
   selectedReddit
 })
 
-export default rootReducer
+export default rootReducerWith

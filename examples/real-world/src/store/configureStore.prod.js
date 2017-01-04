@@ -1,12 +1,13 @@
-import { createStore, } from 'redux'
-import { effectEnhancer } from 'petux'
+import { createStore } from 'redux'
+import { initEffects } from 'petux'
 import { handler } from '../effects'
-import rootReducer from '../reducers'
+import rootReducerWith from '../reducers'
 
+const { emit, enhancer: effectEnhancer } = initEffects(handler);
 const configureStore = preloadedState => createStore(
-  rootReducer,
+  rootReducerWith(emit),
   preloadedState,
-  effectEnhancer(handler)
+  effectEnhancer
 )
 
 export default configureStore

@@ -1,16 +1,17 @@
 import { createStore, applyMiddleware, compose } from 'redux'
-import { effectEnhancer } from 'petux'
+import { initEffects } from 'petux'
 import createLogger from 'redux-logger'
 import { handler } from '../effects'
-import rootReducer from '../reducers'
+import rootReducerWith from '../reducers'
 import DevTools from '../containers/DevTools'
 
+const { emit, enhancer: effectEnhancer } = initEffects(handler);
 const configureStore = preloadedState => {
   const store = createStore(
-    rootReducer,
+    rootReducerWith(emit),
     preloadedState,
     compose(
-      effectEnhancer(handler),
+      effectEnhancer,
       applyMiddleware(createLogger()),
       DevTools.instrument()
     )

@@ -4,7 +4,7 @@ import { Schemas } from '../api';
 
 // Updates an entity cache in response to any action with response.entities.
 // Emits fetch effects if the state is missing necessary data.
-const entities = (state = { users: {}, repos: {} }, action, emit) => {
+const entitiesWith = emit => (state = { users: {}, repos: {} }, action) => {
   if (action.response && action.response.entities) {
     return merge({}, state, action.response.entities)
   }
@@ -48,4 +48,4 @@ const entities = (state = { users: {}, repos: {} }, action, emit) => {
   return state
 }
 
-export default entities
+export default entitiesWith

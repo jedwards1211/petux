@@ -2,7 +2,7 @@ import union from 'lodash/union'
 
 // Creates a reducer managing pagination, given the action types to handle,
 // and a function telling how to extract the key from an action.
-const paginate = ({ loadType, schema, successType, failureType, mapActionToKey, mapActionToDefaultUrl }) => {
+const paginateWith = emit => ({ loadType, schema, successType, failureType, mapActionToKey, mapActionToDefaultUrl }) => {
   if (typeof loadType !== 'string') {
     throw new Error('Expected `loadType` to be a string.')
   }
@@ -27,7 +27,7 @@ const paginate = ({ loadType, schema, successType, failureType, mapActionToKey, 
     nextPageUrl: undefined,
     pageCount: 0,
     ids: []
-  }, action, emit) => {
+  }, action) => {
     switch (action.type) {
       case loadType:
         if (state.pageCount > 0 && !action.nextPage) {
@@ -64,7 +64,7 @@ const paginate = ({ loadType, schema, successType, failureType, mapActionToKey, 
     }
   }
 
-  return (state = {}, action, emit) => {
+  return (state = {}, action) => {
     // Update pagination by key
     switch (action.type) {
       case loadType:
@@ -75,7 +75,7 @@ const paginate = ({ loadType, schema, successType, failureType, mapActionToKey, 
           throw new Error('Expected key to be a string.')
         }
         return { ...state,
-          [key]: updatePagination(state[key], action, emit)
+          [key]: updatePagination(state[key], action)
         }
       default:
         return state
@@ -83,4 +83,4 @@ const paginate = ({ loadType, schema, successType, failureType, mapActionToKey, 
   }
 }
 
-export default paginate
+export default paginateWith
