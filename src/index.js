@@ -26,8 +26,8 @@ type Couple<A, E> = { emit: Emit<E>, enhancer: * }; // FIXME the enhancer type
 /*
  * Given an effect handler, returns the `emit` function and the store enhancer.
  *
- * To get your effects performed after dispatches, create the store with
- * this enhancer, and use `emit` in your root reducer.
+ * To get your effects performed after dispatching, create the store with this
+ * enhancer, and use `emit` inside your root reducer.
  */
 export function initEffects<A, E>(handler: Handler<A, E>): Couple<A, E> {
   /*
@@ -59,6 +59,13 @@ export function initEffects<A, E>(handler: Handler<A, E>): Couple<A, E> {
 
   const enhancer = (createStore: *) => (...args: *[]) => {
     /*
+     * We are about to create the store. Since the reducer might get called, 
+     * reset the sink to `blackhole` to prevent any unwanted effects getting
+     * pushed into `initialEffects`.
+     */
+    sink = blackhole;
+
+    /*
      * The not-yet-enhanced Redux store.
      */
     const store = createStore(...args);
@@ -76,8 +83,8 @@ export function initEffects<A, E>(handler: Handler<A, E>): Couple<A, E> {
     function performAll(effects) {
       for (let i = 0; i < effects.length; i++) {
         /*
-         * We use a `try-catch` here, so that an exception thrown while
-         * performing an effect will not prevent other effects getting
+         * We use a `try-catch` inside this loop, so that an exception thrown
+         * while performing an effect will not prevent other effects getting
          * performed.
          */
         try {
@@ -88,6 +95,9 @@ export function initEffects<A, E>(handler: Handler<A, E>): Couple<A, E> {
       }
     }
 
+    /*
+     * The dispatcher which will actually perform any emitted effects.
+     */
     function dispatch(action) {
       /*
        * Create a new temporary array to emit effects into. All effects emitted
@@ -96,7 +106,7 @@ export function initEffects<A, E>(handler: Handler<A, E>): Couple<A, E> {
       sink = [];
 
       /*
-       * The reducer will get executed here.
+       * The reducer will get executed here by Redux.
        */
       store.dispatch(action);
 
@@ -108,8 +118,8 @@ export function initEffects<A, E>(handler: Handler<A, E>): Couple<A, E> {
 
       /*
        * Perform all queued effects asyncronously. Async is important here,
-       * because performing an effect may `dispatch`, which would cause
-       * recursion.
+       * because performing an effect may `dispatch`, which would be a recursive
+       * call.
        */
       setTimeout(() => performAll(queuedEffects), 0);
 
@@ -122,16 +132,15 @@ export function initEffects<A, E>(handler: Handler<A, E>): Couple<A, E> {
     }
 
     /*
-     * A small convenience: all effects emitted before the store was created
-     * will end up here.
+     * A small convenience: all "initial" effects (emitted before the store
+     * creation) will end up inside the `initialEffects` array. We perform them
+     * immediately after the store is created.
+     *
+     * We can do this syncronously, since `performAll` can't throw. This gives
+     * us an absolute guarantee that the initial effects actually get performed
+     * before anything else.
      */
-    setTimeout(() => performAll(initialEffects), 0);
-
-    /*
-     * In case an inner dispatch (e.g. Redux Dev Tools) happens before
-     * `store.dispatch`, reset the sink to `blackhole`.
-     */
-    sink = blackhole;
+    performAll(initialEffects);
 
     return {
       ...store,
