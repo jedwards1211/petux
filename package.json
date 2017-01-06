@@ -1,6 +1,6 @@
 {
   "name": "petux",
-  "version": "1.0.0-alpha.11",
+  "version": "1.0.0-alpha.12",
   "description": "Emit descriptions of side-effects from your reducers; perform them with a handler of your choice.",
   "main": "lib/index.js",
   "files": [
