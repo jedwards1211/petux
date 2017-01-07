@@ -1,7 +1,7 @@
 {
   "name": "petux",
   "version": "1.0.0-alpha.12",
-  "description": "Emit descriptions of side-effects from your reducers; perform them with a handler of your choice.",
+  "description": "The missing piece of Redux. Deals with side-effects.",
   "main": "lib/index.js",
   "files": [
     "lib",
@@ -10,7 +10,8 @@
   "scripts": {
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "build:flow": "mkdir -p lib && cp src/index.js lib/index.js.flow",
-    "build": "npm run build:commonjs && npm run build:flow",
+    "build:book": "gitbook build",
+    "build": "npm run build:commonjs && npm run build:flow && npm run build:book",
     "test": "flow"
   },
   "repository": {
@@ -37,6 +38,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-es2015": "^6.18.0",
     "cross-env": "^3.1.3",
-    "flow-bin": "^0.37.4"
+    "flow-bin": "^0.37.4",
+    "gitbook-cli": "^2.3.0"
   }
 }

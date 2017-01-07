@@ -10,10 +10,16 @@ cache:
   - examples/async/node_modules
   - examples/real-world/node_modules
 deploy:
-  provider: npm
-  email: tempname011@gmail.com
-  api_key:
-    secure: kdn6ci1obClGjiAavuktoY+LOpjCxpYeYQn9yVMyti74baVdMLpvKlBEdQC7MODnfu741+RQGETRqBS1EqjL1e/n1wK4PLVK+GpS52qKkOigEoE3LYgBNKeaiFMSAlBkAnHCZQ6zt0sen9rTmZmZPIWckBYSRdPvnfKDD2ids3Sml77/+LK8oe/lmP7ZXZiWsvnYJ/UIGWsYXvJA3p84Cwl3FlpU2cLkWym7VG2e/0wcg8YtCfBqaGMsf55vL76zCeS7/Uf5Ks5TiSWbj3UdPKpyI7rjgdmfbecmQHQjlaChEvwNrmyUnj5T3pNdUDbTdtj138cqP4/aJ4T8EXFYAt6RdQEHCoOt6HPCFctjVVs0BuHo9tObjNYX6F58klsu+upwGdPULWr7S54vIZ3mrCDPwMcrhBC3VrLTno45vPwMHbHLvpPvc+s4cXciqZ/PydCBSt2AeFjsspvDIX73mr+5wGBPgrxp0ZrG7GC+v+nDcn1Zetx27PWg9K7P4+9QnLjVzSgqcxM8Q/fZffxkfMt+Pam3JfzxYFQOY+lB0j4l4/IkZNxEvDC8g5TjCje2/NGsgd3G5V8VeUYE6RnyeYqR/DcIm5zDoHK/CAtp5N+UKNbUhk91zvYbj8+ol08Qbh+5EIyek9DWj9YLAslhMcEMCJ4l61N4JMObr1Qzwec=
-  on:
-    tags: true
-    repo: tempname11/petux
+  - provider: npm
+    email: tempname011@gmail.com
+    api_key:
+      secure: kdn6ci1obClGjiAavuktoY+LOpjCxpYeYQn9yVMyti74baVdMLpvKlBEdQC7MODnfu741+RQGETRqBS1EqjL1e/n1wK4PLVK+GpS52qKkOigEoE3LYgBNKeaiFMSAlBkAnHCZQ6zt0sen9rTmZmZPIWckBYSRdPvnfKDD2ids3Sml77/+LK8oe/lmP7ZXZiWsvnYJ/UIGWsYXvJA3p84Cwl3FlpU2cLkWym7VG2e/0wcg8YtCfBqaGMsf55vL76zCeS7/Uf5Ks5TiSWbj3UdPKpyI7rjgdmfbecmQHQjlaChEvwNrmyUnj5T3pNdUDbTdtj138cqP4/aJ4T8EXFYAt6RdQEHCoOt6HPCFctjVVs0BuHo9tObjNYX6F58klsu+upwGdPULWr7S54vIZ3mrCDPwMcrhBC3VrLTno45vPwMHbHLvpPvc+s4cXciqZ/PydCBSt2AeFjsspvDIX73mr+5wGBPgrxp0ZrG7GC+v+nDcn1Zetx27PWg9K7P4+9QnLjVzSgqcxM8Q/fZffxkfMt+Pam3JfzxYFQOY+lB0j4l4/IkZNxEvDC8g5TjCje2/NGsgd3G5V8VeUYE6RnyeYqR/DcIm5zDoHK/CAtp5N+UKNbUhk91zvYbj8+ol08Qbh+5EIyek9DWj9YLAslhMcEMCJ4l61N4JMObr1Qzwec=
+    on:
+      tags: true
+      repo: tempname11/petux
+  - provider: surge
+    skip_cleanup: true
+    project: ./_book/
+    domain: petux-docs.surge.sh
+    on:
+      branch: master
