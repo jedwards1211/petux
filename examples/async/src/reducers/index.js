@@ -3,7 +3,10 @@ import {
   SELECT_REDDIT, INVALIDATE_REDDIT,
   REQUEST_POSTS, RECEIVE_POSTS
 } from '../actions'
+import { fetchPosts } from '../effects'
 
+export default function(emit) {
+// Note: the indentation is not increased here for better diff readability.
 const selectedReddit = (state = 'reactjs', action) => {
   switch (action.type) {
     case SELECT_REDDIT:
@@ -13,9 +16,19 @@ const selectedReddit = (state = 'reactjs', action) => {
   }
 }
 
+const shouldFetchPosts = (state) => {
+  if (!state) {
+    return true
+  }
+  if (state.isFetching) {
+    return false
+  }
+  return state.didInvalidate
+}
+
 const posts = (state = {
   isFetching: false,
-  didInvalidate: false,
+  didInvalidate: true,
   items: []
 }, action) => {
   switch (action.type) {
@@ -25,10 +38,15 @@ const posts = (state = {
         didInvalidate: true
       }
     case REQUEST_POSTS:
-      return {
-        ...state,
-        isFetching: true,
-        didInvalidate: false
+      if (shouldFetchPosts(state)) {
+        emit(fetchPosts(action.reddit))
+        return {
+          ...state,
+          isFetching: true,
+          didInvalidate: false
+        }
+      } else {
+        return state
       }
     case RECEIVE_POSTS:
       return {
@@ -57,9 +75,9 @@ const postsByReddit = (state = { }, action) => {
   }
 }
 
-const rootReducer = combineReducers({
+return combineReducers({
   postsByReddit,
   selectedReddit
 })
-
-export default rootReducer
+// See note about indentation above.
+}
