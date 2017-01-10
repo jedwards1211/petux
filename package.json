@@ -1,6 +1,6 @@
 {
   "name": "petux",
-  "version": "1.0.0-alpha.12",
+  "version": "1.0.0-beta.0",
   "description": "The missing piece of Redux. Deals with side-effects.",
   "main": "lib/index.js",
   "files": [
