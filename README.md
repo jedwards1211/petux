@@ -83,7 +83,7 @@ Given a handler, creates the store enhancer and `emit`. Returns them as an `{ em
 
 - Adapted [async](https://github.com/tempname11/petux/tree/master/examples/async) example from Redux.
  - Shows possible [migration paths](https://petux-docs.surge.sh/docs/async.html) from thunks and custom middleware.
-- [A solution](https://github.com/tempname11/flux-challenge/submissions/tempname11) to @staltz's [Flux Challenge](https://github.com/staltz/flux-challenge).
+- [A solution](https://github.com/tempname11/flux-challenge/tree/master/submissions/tempname11) to @staltz's [Flux Challenge](https://github.com/staltz/flux-challenge).
  - Simple flat architecture.
  - Effects are described as plain data (like Actions)
  - *flowtype* annotations.
