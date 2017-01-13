@@ -124,9 +124,9 @@ export function initEffects<A, E>(handler: Handler<A, E>): Couple<A, E> {
       setTimeout(() => performAll(queuedEffects), 0);
 
       /*
-       * We are done. To prevent any inner dispatches (e.g. Redux Dev Tools)
-       * from performing any effects, we reset the sink to `blackhole`, i.e.
-       * ignore everything.
+       * We are done. To prevent any inner dispatches (e.g. Redux Dev Tools) or
+       * extraneous `emit` calls from performing any effects, we reset the sink
+       * to `blackhole`, i.e. ignore everything.
        */
       sink = blackhole;
     }
